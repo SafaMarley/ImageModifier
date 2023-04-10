@@ -2,14 +2,12 @@
 #include <stdio.h>
 #include "helpers.h"
 
-// Convert image to grayscale
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
 {
-    for (int i = 0; i < height; i++)    //Iterate over the pixels of the image
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
-            //Calculate the average and assign it to the rgb values of the pixels
             int grayColor = round((image[i][j].rgbtBlue + image[i][j].rgbtGreen + image[i][j].rgbtRed) / 3.0);
             image[i][j].rgbtBlue = grayColor;
             image[i][j].rgbtGreen = grayColor;
@@ -19,15 +17,13 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
     return;
 }
 
-// Reflect image horizontally
 void reflect(int height, int width, RGBTRIPLE image[height][width])
 {
     int n = width / 2;
-    for (int i = 0; i < height; i++)    //Iterate over the pixels of the image
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < n; j++)
         {
-            //Swap the pixels between each other
             RGBTRIPLE tempImage = image[i][j];
             image[i][j] = image[i][width - (1 + j)];
             image[i][width - (1 + j)] = tempImage;
@@ -36,23 +32,19 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
     return;
 }
 
-// Blur image
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
     RGBTRIPLE tempImage[height][width];
-    for (int i = 0; i < height; i++)    //Iterate over the pixels of the image
+    for (int i = 0; i < height; i++)
     {
-        //Get the adjacent pixels and store the rgb values in variables and keep counting the number of adjacents
         for (int j = 0; j < width; j++)
         {
-            //Initialize them with current pixels values
             int red = image[i][j].rgbtRed;
             int green = image[i][j].rgbtGreen;
             int blue = image[i][j].rgbtBlue;
-            //Keeps track of number of adjacents to get the average
             int count = 1;
 
-            if (i > 0)  //Calculation for upper pixel
+            if (i > 0)
             {
                 red += image[i - 1][j].rgbtRed;
                 green += image[i - 1][j].rgbtGreen;
@@ -60,7 +52,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                 count++;
             }
 
-            if (j > 0)  //Calculation for left pixel
+            if (j > 0)
             {
                 red += image[i][j - 1].rgbtRed;
                 green += image[i][j - 1].rgbtGreen;
@@ -68,7 +60,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                 count++;
             }
 
-            if (i < height - 1) //Calculation for lower pixel
+            if (i < height - 1)
             {
                 red += image[i + 1][j].rgbtRed;
                 green += image[i + 1][j].rgbtGreen;
@@ -76,7 +68,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                 count++;
             }
 
-            if (j < width - 1)  //Calculation for right pixel
+            if (j < width - 1)
             {
                 red += image[i][j + 1].rgbtRed;
                 green += image[i][j + 1].rgbtGreen;
@@ -84,7 +76,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                 count++;
             }
 
-            if (i > 0 && j > 0) //Calculation for upper left pixel
+            if (i > 0 && j > 0)
             {
                 red += image[i - 1][j - 1].rgbtRed;
                 green += image[i - 1][j - 1].rgbtGreen;
@@ -92,7 +84,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                 count++;
             }
 
-            if (i > 0 && j < width - 1) //Calculation for upper right pixel
+            if (i > 0 && j < width - 1)
             {
                 red += image[i - 1][j + 1].rgbtRed;
                 green += image[i - 1][j + 1].rgbtGreen;
@@ -100,7 +92,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                 count++;
             }
 
-            if (i < height - 1 && j > 0)    //Calculation for lower left pixel
+            if (i < height - 1 && j > 0)
             {
                 red += image[i + 1][j - 1].rgbtRed;
                 green += image[i + 1][j - 1].rgbtGreen;
@@ -108,14 +100,13 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                 count++;
             }
 
-            if (i < height - 1 && j < width - 1)    //Calculation for lower right pixel
+            if (i < height - 1 && j < width - 1)
             {
                 red += image[i + 1][j + 1].rgbtRed;
                 green += image[i + 1][j + 1].rgbtGreen;
                 blue += image[i + 1][j + 1].rgbtBlue;
                 count++;
             }
-            //Store the new blured pixels in other array in order to not damage the original file
             tempImage[i][j].rgbtRed = round(red / (float)count);
             tempImage[i][j].rgbtGreen = round(green / (float)count);
             tempImage[i][j].rgbtBlue = round(blue / (float)count);
@@ -124,26 +115,21 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 
     for (int i = 0; i < height; i++)
     {
-        //Update the image
         for (int j = 0; j < width; j++)
         {
-            //Assign calculated values to each pixel
             image[i][j] = tempImage[i][j];
         }
     }
     return;
 }
 
-// Detect edges
 void edges(int height, int width, RGBTRIPLE image[height][width])
 {
     RGBTRIPLE tempImage[height][width];
-    for (int i = 0; i < height; i++)    //Iterate over the pixels of image
+    for (int i = 0; i < height; i++)
     {
-        //Apply the sobel oretaion to calculate Gx and Gy
         for (int j = 0; j < width; j++)
         {
-            //Initialize them with 0 since both of the Gx and Gy matrices multiplies self with 0
             int redX = 0;
             int greenX = 0;
             int blueX = 0;
@@ -152,7 +138,7 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
             int greenY = 0;
             int blueY = 0;
 
-            if (i > 0)  //Calculation for upper pixel
+            if (i > 0)
             {
                 RGBTRIPLE temp = image[i - 1][j];
                 redY -= temp.rgbtRed * 2;
@@ -160,7 +146,7 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
                 blueY -= temp.rgbtBlue * 2;
             }
 
-            if (j > 0)  //Calculation for left pixel
+            if (j > 0)
             {
                 RGBTRIPLE temp = image[i][j - 1];
                 redX -= temp.rgbtRed * 2;
@@ -168,7 +154,7 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
                 blueX -= temp.rgbtBlue * 2;
             }
 
-            if (i < height - 1) //Calculation for lower pixel
+            if (i < height - 1)
             {
                 RGBTRIPLE temp = image[i + 1][j];
                 redY += temp.rgbtRed * 2;
@@ -176,7 +162,7 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
                 blueY += temp.rgbtBlue * 2;
             }
 
-            if (j < width - 1)  //Calculation for right pixel
+            if (j < width - 1)
             {
                 RGBTRIPLE temp = image[i][j + 1];
                 redX += temp.rgbtRed * 2;
@@ -184,7 +170,7 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
                 blueX += temp.rgbtBlue * 2;
             }
 
-            if (i > 0 && j > 0) //Calculation for upper left pixel
+            if (i > 0 && j > 0)
             {
                 RGBTRIPLE temp = image[i - 1][j - 1];
                 redX -= temp.rgbtRed;
@@ -196,7 +182,7 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
                 blueY -= temp.rgbtBlue;
             }
 
-            if (i > 0 && j < width - 1) //Calculation for upper right pixel
+            if (i > 0 && j < width - 1)
             {
                 RGBTRIPLE temp = image[i - 1][j + 1];
                 redX += temp.rgbtRed;
@@ -208,7 +194,7 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
                 blueY -= temp.rgbtBlue;
             }
 
-            if (i < height - 1 && j > 0)    //Calculation for lower left pixel
+            if (i < height - 1 && j > 0)
             {
                 RGBTRIPLE temp = image[i + 1][j - 1];
                 redX -= temp.rgbtRed;
@@ -220,7 +206,7 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
                 blueY += temp.rgbtBlue;
             }
 
-            if (i < height - 1 && j < width - 1)    //Calculation for lower right pixel
+            if (i < height - 1 && j < width - 1)
             {
                 RGBTRIPLE temp = image[i + 1][j + 1];
                 redX += temp.rgbtRed;
@@ -231,9 +217,8 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
                 greenY += temp.rgbtGreen;
                 blueY += temp.rgbtBlue;
             }
-            //Clamping rounding and square root operation.
             int tempRed = round(sqrt(redX * redX + redY * redY));
-            if (tempRed > 255)  //if red value is higher than 255 clamp it to the 255 just assign it otherwise
+            if (tempRed > 255)
             {
                 tempImage[i][j].rgbtRed = 255;
             }
@@ -243,7 +228,7 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
             }
 
             int tempGreen = round(sqrt(greenX * greenX + greenY * greenY));
-            if (tempGreen > 255)    //if green value is higher than 255 clamp it to the 255 just assign it otherwise
+            if (tempGreen > 255)
             {
                 tempImage[i][j].rgbtGreen = 255;
             }
@@ -253,7 +238,7 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
             }
 
             int tempBlue = round(sqrt(blueX * blueX + blueY * blueY));
-            if (tempBlue > 255) //if blue value is higher than 255 clamp it to the 255 just assign it otherwise
+            if (tempBlue > 255)
             {
                 tempImage[i][j].rgbtBlue = 255;
             }
@@ -266,25 +251,21 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
 
     for (int i = 0; i < height; i++)
     {
-        //Update the original values
         for (int j = 0; j < width; j++)
         {
-            //Assign the calculated values to image
             image[i][j] = tempImage[i][j];
         }
     }
     return;
 }
 
-// Inverse image
 void inverse(int height, int width, RGBTRIPLE image[height][width])
 {
     int n = height / 2;
-    for (int i = 0; i < n; i++)    //Iterate over the pixels of the image
+    for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < width; j++)
         {
-            //Swap the pixels between each other
             RGBTRIPLE tempImage = image[i][j];
             image[i][j] = image[height - (1 + i)][j];
             image[height - (1 + i)][j] = tempImage;
@@ -296,18 +277,36 @@ void inverse(int height, int width, RGBTRIPLE image[height][width])
 void lighten(int height, int width, RGBTRIPLE image[height][width])
 {
     int lightenValue = 16;
-    int clampValue = 255 - lightenValue;
-    for (int i = 0; i < height; i++)    //Iterate over the pixels of the image
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
-            if (image[i][j].rgbtRed <= clampValue &&
-                image[i][j].rgbtGreen <= clampValue &&
-                image[i][j].rgbtBlue <= clampValue)
+            RGBTRIPLE* tempImage = &image[i][j];
+            if (tempImage->rgbtRed + lightenValue > 255)
             {
-                image[i][j].rgbtRed += lightenValue;
-                image[i][j].rgbtGreen += lightenValue;
-                image[i][j].rgbtBlue += lightenValue;
+                tempImage->rgbtRed = 255;
+            }
+            else
+            {
+                tempImage->rgbtRed += lightenValue;
+            }
+
+            if (tempImage->rgbtGreen + lightenValue > 255)
+            {
+                tempImage->rgbtGreen = 255;
+            }
+            else
+            {
+                tempImage->rgbtGreen += lightenValue;
+            }
+
+            if (tempImage->rgbtBlue + lightenValue > 255)
+            {
+                tempImage->rgbtBlue = 255;
+            }
+            else
+            {
+                tempImage->rgbtBlue += lightenValue;
             }
         }
     }
@@ -317,17 +316,36 @@ void lighten(int height, int width, RGBTRIPLE image[height][width])
 void fade(int height, int width, RGBTRIPLE image[height][width])
 {
     int fadeValue = 16;
-    for (int i = 0; i < height; i++)    //Iterate over the pixels of the image
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
-            if (image[i][j].rgbtRed >= fadeValue &&
-                image[i][j].rgbtGreen >= fadeValue &&
-                image[i][j].rgbtBlue >= fadeValue)
+            RGBTRIPLE* tempImage = &image[i][j];
+            if (tempImage->rgbtRed < fadeValue)
             {
-                image[i][j].rgbtRed -= fadeValue;
-                image[i][j].rgbtGreen -= fadeValue;
-                image[i][j].rgbtBlue -= fadeValue;
+                tempImage->rgbtRed = 0;
+            }
+            else
+            {
+                tempImage->rgbtRed -= fadeValue;
+            }
+
+            if (tempImage->rgbtGreen < fadeValue)
+            {
+                tempImage->rgbtGreen = 0;
+            }
+            else
+            {
+                tempImage->rgbtGreen -= fadeValue;
+            }
+
+            if (tempImage->rgbtBlue < fadeValue)
+            {
+                tempImage->rgbtBlue = 0;
+            }
+            else
+            {
+                tempImage->rgbtBlue -= fadeValue;
             }
         }
     }
@@ -336,7 +354,7 @@ void fade(int height, int width, RGBTRIPLE image[height][width])
 
 void ignoreChannelRed(int height, int width, RGBTRIPLE image[height][width])
 {
-    for (int i = 0; i < height; i++)    //Iterate over the pixels of the image
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
@@ -348,7 +366,7 @@ void ignoreChannelRed(int height, int width, RGBTRIPLE image[height][width])
 
 void ignoreChannelGreen(int height, int width, RGBTRIPLE image[height][width])
 {
-    for (int i = 0; i < height; i++)    //Iterate over the pixels of the image
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
@@ -360,7 +378,7 @@ void ignoreChannelGreen(int height, int width, RGBTRIPLE image[height][width])
 
 void ignoreChannelBlue(int height, int width, RGBTRIPLE image[height][width])
 {
-    for (int i = 0; i < height; i++)    //Iterate over the pixels of the image
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
@@ -368,4 +386,93 @@ void ignoreChannelBlue(int height, int width, RGBTRIPLE image[height][width])
         }
     }
     return;
+}
+
+void hallucinate(int height, int width, RGBTRIPLE image[height][width])
+{
+    int n = width / 2;
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            RGBTRIPLE tempImage = image[i][j];
+            switch (j % 4)
+            {
+                case 0:
+                    image[i][j] = image[i][width - (1 + j)];
+                    image[i][width - (1 + j)] = tempImage;
+                    break;
+                case 1:
+                    image[i][j] = image[height - (1 + i)][j];
+                    image[height - (1 + i)][j] = tempImage;
+                    break;
+                case 2:
+                    image[i][j] = image[height - (1 + i)][width - (1 + j)];
+                    image[height - (1 + i)][width - (1 + j)] = tempImage;
+                    break;
+            }
+        }
+    }
+    return;
+}
+
+void sort(int height, int width, RGBTRIPLE image[height][width])
+{
+    mergeSort(&image[0][0], 0, height * width - 1);
+
+    return;
+}
+
+void mergeSort(RGBTRIPLE *arr, int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+
+        merge(arr, left, mid, right);
+    }
+}
+
+void merge(RGBTRIPLE *arr, int left, int mid, int right) {
+    int i, j, k;
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+
+    RGBTRIPLE L[n1], R[n2];
+
+    for (i = 0; i < n1; i++)
+        L[i] = arr[left + i];
+    for (j = 0; j < n2; j++)
+        R[j] = arr[mid + 1 + j];
+
+    i = 0;
+    j = 0;
+    k = left;
+
+    while (i < n1 && j < n2) {
+        int sum1 = L[i].rgbtBlue + L[i].rgbtGreen + L[i].rgbtRed;
+        int sum2 = R[j].rgbtBlue + R[j].rgbtGreen + R[j].rgbtRed;
+        if (sum1 <= sum2) {
+            arr[k] = L[i];
+            i++;
+        }
+        else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
 }

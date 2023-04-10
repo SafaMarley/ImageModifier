@@ -7,7 +7,7 @@
 int main(int argc, char *argv[])
 {
     // Define allowable filters
-    char *filters = "begrilf123";
+    char *filters = "begrilf123hs";
 
     // Get filter flag and check validity
     char filter = getopt(argc, argv, filters);
@@ -135,19 +135,29 @@ int main(int argc, char *argv[])
             fade(height, width, image);
             break;
 
-        // Fade
+        // Ignore blue channel
         case '1':
             ignoreChannelRed(height, width, image);
             break;
 
-        // Fade
+        // Ignore green channel
         case '2':
             ignoreChannelGreen(height, width, image);
             break;
 
-        // Fade
+        // Ignore blue channel
         case '3':
             ignoreChannelBlue(height, width, image);
+            break;
+
+        // Hallucinate
+        case 'h':
+            hallucinate(height, width, image);
+            break;
+
+        // Sort
+        case 's':
+            sort(height, width, image);
             break;
     }
 
