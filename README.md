@@ -3,13 +3,14 @@
 Execute "make filter" from project's directory to compile the program.
 
 Once compiled you can run the program with proper parameters
+</br>
 ./filter -{function indicator} {input path} {output path}
 
 Example:
 </br>
 Original
 </br>
-![alt text](inputImages/tower.bmp)
+![alt text](https://github.com/SafaMarley/ImageModifier/blob/main/inputImages/tower.bmp)
 </br>
 </br>
 Ignore Red Channel
@@ -17,7 +18,7 @@ Ignore Red Channel
 ./filter -1 inputImages/tower.bmp outputImages/1Tower.bmp
 would produce;
 </br>
-![alt text](outputImages/1tower.bmp)
+![alt text](https://github.com/SafaMarley/ImageModifier/blob/main/outputImages/1Tower.bmp)
 </br>
 </br>
 Ignore Green Channel
@@ -25,7 +26,7 @@ Ignore Green Channel
 ./filter -2 inputImages/tower.bmp outputImages/2Tower.bmp
 would produce;
 </br>
-![alt text](outputImages/2tower.bmp)
+![alt text](https://github.com/SafaMarley/ImageModifier/blob/main/outputImages/2Tower.bmp)
 </br>
 </br>
 Ignore Blue Channel
@@ -33,7 +34,7 @@ Ignore Blue Channel
 ./filter -3 inputImages/tower.bmp outputImages/3Tower.bmp
 would produce;
 </br>
-![alt text](outputImages/3tower.bmp)
+![alt text](https://github.com/SafaMarley/ImageModifier/blob/main/outputImages/3Tower.bmp)
 </br>
 </br>
 Blur
@@ -41,7 +42,7 @@ Blur
 ./filter -b inputImages/tower.bmp outputImages/bTower.bmp
 would produce;
 </br>
-![alt text](outputImages/btower.bmp)
+![alt text](https://github.com/SafaMarley/ImageModifier/blob/main/outputImages/bTower.bmp)
 </br>
 </br>
 Edge Detection
@@ -49,7 +50,7 @@ Edge Detection
 ./filter -e inputImages/tower.bmp outputImages/eTower.bmp
 would produce;
 </br>
-![alt text](outputImages/etower.bmp)
+![alt text](https://github.com/SafaMarley/ImageModifier/blob/main/outputImages/eTower.bmp)
 </br>
 </br>
 Grayscale
@@ -57,7 +58,7 @@ Grayscale
 ./filter -g inputImages/tower.bmp outputImages/gTower.bmp
 would produce;
 </br>
-![alt text](outputImages/gtower.bmp)
+![alt text](https://github.com/SafaMarley/ImageModifier/blob/main/outputImages/gTower.bmp)
 </br>
 </br>
 Reverse
@@ -65,7 +66,7 @@ Reverse
 ./filter -r inputImages/tower.bmp outputImages/rTower.bmp
 would produce;
 </br>
-![alt text](outputImages/rtower.bmp)
+![alt text](https://github.com/SafaMarley/ImageModifier/blob/main/outputImages/rTower.bmp)
 </br>
 </br>
 Inverse
@@ -73,7 +74,7 @@ Inverse
 ./filter -i inputImages/tower.bmp outputImages/iTower.bmp
 would produce;
 </br>
-![alt text](outputImages/itower.bmp)
+![alt text](https://github.com/SafaMarley/ImageModifier/blob/main/outputImages/iTower.bmp)
 </br>
 </br>
 Lighten
@@ -81,7 +82,7 @@ Lighten
 ./filter -l inputImages/tower.bmp outputImages/lTower.bmp
 would produce;
 </br>
-![alt text](outputImages/ltower.bmp)
+![alt text](https://github.com/SafaMarley/ImageModifier/blob/main/outputImages/lTower.bmp)
 </br>
 </br>
 Fade
@@ -89,7 +90,7 @@ Fade
 ./filter -f inputImages/tower.bmp outputImages/fTower.bmp
 would produce;
 </br>
-![alt text](outputImages/ftower.bmp)
+![alt text](https://github.com/SafaMarley/ImageModifier/blob/main/outputImages/fTower.bmp)
 </br>
 </br>
 Hallucinate
@@ -97,7 +98,7 @@ Hallucinate
 ./filter -h inputImages/tower.bmp outputImages/hTower.bmp
 would produce;
 </br>
-![alt text](outputImages/htower.bmp)
+![alt text](https://github.com/SafaMarley/ImageModifier/blob/main/outputImages/hTower.bmp)
 </br>
 </br>
 Sort
@@ -105,4 +106,4 @@ Sort
 ./filter -s inputImages/tower.bmp outputImages/sTower.bmp
 would produce;
 </br>
-![alt text](outputImages/stower.bmp)
+![alt text](https://github.com/SafaMarley/ImageModifier/blob/main/outputImages/sTower.bmp)
